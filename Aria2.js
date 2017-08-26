@@ -51,8 +51,13 @@
 
     httpclient.request(opts, function(err, res) {
       if (err) return fn(err)
-
-      var msg = opts.jsonp ? res : JSON.parse(res.toString())
+      var msg = '';
+	try {
+       msg = opts.jsonp ? res : JSON.parse(res.toString())
+	} catch(e) {
+	    console.log("Incorrect JSON");
+	    return fn("Incorrect JSON");
+	}
       that._onmessage(msg)
     })
   }
